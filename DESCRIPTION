@@ -16,11 +16,22 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Depends: 
     Biobase
+Imports:
+    SpatialExperiment,
+    STexampleData,
+    ggspavis,
+    scater,
+    scran,
+    pheatmap
 Suggests: 
     knitr,
     rmarkdown,
     pkgdown
-URL: https://github.com/lmweber/OSTA-workshop-Bioc2021
-BugReports: https://github.com/lmweber/OSTA-workshop-Bioc2021/issues/new/choose
+Remotes:
+    drighelli/SpatialExperiment@master,
+    lmweber/STexampleData@main,
+    lmweber/ggspavis@main
+URL: https://github.com/lmweber/BiocWorkshopOSTA
+BugReports: https://github.com/lmweber/BiocWorkshopOSTA/issues/new/choose
 VignetteBuilder: knitr
-DockerImage: lmweber/OSTA-workshop-Bioc2021:latest
+DockerImage: lmweber/BiocWorkshopOSTA:latest
