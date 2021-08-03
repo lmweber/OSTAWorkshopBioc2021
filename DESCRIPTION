@@ -34,4 +34,4 @@ Remotes:
 URL: https://github.com/lmweber/BiocWorkshopOSTA
 BugReports: https://github.com/lmweber/BiocWorkshopOSTA/issues/new/choose
 VignetteBuilder: knitr
-DockerImage: lmweber/BiocWorkshopOSTA:latest
+DockerImage: lmweber/biocworkshop_osta:latest
