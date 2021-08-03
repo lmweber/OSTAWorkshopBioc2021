@@ -15,19 +15,18 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Depends: 
-    Biobase
-Imports:
+    Biobase,
     SpatialExperiment,
     STexampleData,
     ggspavis,
     scater,
     scran,
-    pheatmap
+    pheatmap,
+    uwot
 Suggests: 
     knitr,
     rmarkdown,
-    pkgdown,
-    uwot
+    pkgdown
 Remotes:
     drighelli/SpatialExperiment@master,
     lmweber/STexampleData@main,
