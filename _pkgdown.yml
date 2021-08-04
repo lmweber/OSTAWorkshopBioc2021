@@ -1,4 +1,4 @@
-url: https://lmweber.github.io/BiocWorkshopOSTA
+url: https://lmweber.github.io/OSTAWorkshopBioc2021
 
 template:
   params:
@@ -6,13 +6,13 @@ template:
     #ganalytics: UA-99999999-9
 
 home:
-  title: "BiocWorkshopOSTA"
+  title: "OSTAWorkshopBioc2021"
   type: inverse
 
 
 navbar:
   right:
    - icon: fa-github
-     href: https://github.com/lmweber/BiocWorkshopOSTA
+     href: https://github.com/lmweber/OSTAWorkshopBioc2021
      
 

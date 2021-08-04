@@ -1,4 +1,4 @@
-Package: BiocWorkshopOSTA
+Package: OSTAWorkshopBioc2021
 Title: OSTA workshop for Bioc2021 conference
 Version: 0.9.0
 Authors@R: 
@@ -7,8 +7,8 @@ Authors@R:
            role = c("aut", "cre"),
            email = "lukas.weber.edu@gmail.com",
            comment = c(ORCID = "0000-0002-3282-1730"))
-Description: This package contains materials for the OSTA workshop at Bioc2021 
-    conference. 
+Description: This package contains materials for the OSTA workshop at the 
+    Bioc2021 conference. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -31,7 +31,7 @@ Remotes:
     drighelli/SpatialExperiment@master,
     lmweber/STexampleData@no_accessors,
     lmweber/ggspavis@main
-URL: https://github.com/lmweber/BiocWorkshopOSTA
-BugReports: https://github.com/lmweber/BiocWorkshopOSTA/issues/new/choose
+URL: https://github.com/lmweber/OSTAWorkshopBioc2021
+BugReports: https://github.com/lmweber/OSTAWorkshopBioc2021/issues/new/choose
 VignetteBuilder: knitr
-DockerImage: lmweber/biocworkshop_osta:latest
+DockerImage: lmweber/ostaworkshopbioc2021:latest
