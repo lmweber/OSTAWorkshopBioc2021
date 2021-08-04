@@ -2,7 +2,7 @@ on: [push, pull_request]
 
 env:
   cache-version: v1
-  repo-name: lmweber/BiocWorkshopOSTA
+  repo-name: lmweber/biocworkshop_osta  # from dockerhub
 
 jobs:
   job1:
