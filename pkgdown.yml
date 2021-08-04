@@ -2,10 +2,8 @@ pandoc: 2.11.4
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  HOWTO_BUILD_WORKSHOP: HOWTO_BUILD_WORKSHOP.html
   OSTA_workflow: OSTA_workflow.html
-  workshop_example: workshop_example.html
-last_built: 2021-08-04T20:12Z
+last_built: 2021-08-04T20:28Z
 urls:
   reference: https://lmweber.github.io/OSTAWorkshopBioc2021/reference
   article: https://lmweber.github.io/OSTAWorkshopBioc2021/articles
