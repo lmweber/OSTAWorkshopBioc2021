@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   OSTA_workflow: OSTA_workflow.html
-last_built: 2021-08-04T20:28Z
+last_built: 2021-08-05T01:37Z
 urls:
   reference: https://lmweber.github.io/OSTAWorkshopBioc2021/reference
   article: https://lmweber.github.io/OSTAWorkshopBioc2021/articles
