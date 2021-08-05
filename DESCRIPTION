@@ -22,7 +22,8 @@ Depends:
     scater,
     scran,
     pheatmap,
-    uwot
+    uwot,
+    DelayedMatrixStats
 Suggests: 
     knitr,
     rmarkdown,
@@ -30,7 +31,8 @@ Suggests:
 Remotes:
     drighelli/SpatialExperiment@master,
     lmweber/STexampleData@no_accessors,
-    lmweber/ggspavis@main
+    lmweber/ggspavis@main,
+    PeteHaitch/DelayedMatrixStats@906ef69596558b0b7436ce95ad81a529062fa38c
 URL: https://github.com/lmweber/OSTAWorkshopBioc2021
 BugReports: https://github.com/lmweber/OSTAWorkshopBioc2021/issues/new/choose
 VignetteBuilder: knitr
