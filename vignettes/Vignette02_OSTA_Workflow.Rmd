@@ -17,15 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 
-# 2. OSTA Workflow
-
-Authors:
-    Lukas M. Weber^[Johns Hopkins Bloomberg School of Public Health]
-    <br/>
-Last modified: 5 August 2021
-
-
-## Overview
+# Overview
 
 
 ### Visium human DLPFC workflow
