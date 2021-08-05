@@ -1,0 +1,29 @@
+---
+title: "1. Introduction"
+author: Lukas M. Weber
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{1. Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+# 1. Introduction
+
+Authors:
+    Lukas M. Weber^[Johns Hopkins Bloomberg School of Public Health]
+    <br/>
+Last modified: 5 August 2021
+
+
+## Background
+

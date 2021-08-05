@@ -1,9 +1,9 @@
 ---
-title: "OSTA workflow"
+title: "2. OSTA Workflow"
 author: Lukas M. Weber
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{OSTA workflow}
+  %\VignetteIndexEntry{2. OSTA Workflow}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,18 +17,15 @@ knitr::opts_chunk$set(
 ```
 
 
-# OSTA workflow
+# 2. OSTA Workflow
 
 Authors:
     Lukas M. Weber^[Johns Hopkins Bloomberg School of Public Health]
     <br/>
-Last modified: 3 August 2021
+Last modified: 5 August 2021
 
 
 ## Overview
-
-
-## Workshop
 
 
 ### Visium human DLPFC workflow
