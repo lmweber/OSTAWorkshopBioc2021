@@ -2,8 +2,9 @@ pandoc: 2.11.4
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  OSTA_workflow: OSTA_workflow.html
-last_built: 2021-08-05T19:46Z
+  Vignette01_Introduction: Vignette01_Introduction.html
+  Vignette02_OSTA_Workflow: Vignette02_OSTA_Workflow.html
+last_built: 2021-08-05T19:52Z
 urls:
   reference: https://lmweber.github.io/OSTAWorkshopBioc2021/reference
   article: https://lmweber.github.io/OSTAWorkshopBioc2021/articles
