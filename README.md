@@ -1,9 +1,9 @@
 # OSTAWorkshopBioc2021
 
-This repository contains materials for our [OSTA](https://lmweber.org/OSTA-book/) workshop at the [Bioc2021 conference](https://bioc2021.bioconductor.org/).
+This repository contains materials for our [OSTA](https://lmweber.org/OSTA-book/) workshop for the [Bioc2021 conference](https://bioc2021.bioconductor.org/).
 
 
-## Workshop links
+## Links
 
 - Link to rendered workshop page: https://lmweber.org/OSTAWorkshopBioc2021/
 - Link to source repository: https://github.com/lmweber/OSTAWorkshopBioc2021
@@ -34,16 +34,18 @@ remotes::install_github("lmweber/ggspavis", build_vignettes = TRUE)
 remotes::install_github("PeteHaitch/DelayedMatrixStats", ref = "906ef69596558b0b7436ce95ad81a529062fa38c")
 ```
 
-Alternatively, a `devel` installation of Bioconductor 3.14 can also be used, with the latest versions of the above packages.
+Alternatively, a `devel` installation of Bioconductor 3.14 can also be used, with the latest versions of the packages above.
 
 
 ## Docker image
 
 A Docker image containing the tested version of all materials used in the workshop is also available. Note this is a large download.
 
+To run the Docker image:
+
 ```sh
 docker run -e PASSWORD=abc -p 8787:8787 lmweber/ostaworkshopbioc2021:latest
 ```
 
-Once Docker is running, navigate to http://localhost:8787/ in your browser, and log in with username `rstudio` and password `abc`.
+Then navigate to http://localhost:8787/ in your browser, and log in with username `rstudio` and password `abc`.
 
