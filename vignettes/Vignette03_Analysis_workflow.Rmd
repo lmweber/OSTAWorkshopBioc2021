@@ -46,7 +46,7 @@ library(SpatialExperiment)
 library(STexampleData)
 
 # load dataset using latest GitHub version
-spe <- load_data("Visium_humanDLPFC")
+spe <- Visium_humanDLPFC()
 spe
 
 # alternatively: load dataset from ExperimentHub

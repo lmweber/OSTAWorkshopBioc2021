@@ -15,24 +15,21 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Depends: 
-    Biobase,
+    Biobase
+Imports: 
     SpatialExperiment,
     STexampleData,
     ggspavis,
     scater,
     scran,
     pheatmap,
-    uwot,
-    DelayedMatrixStats
+    uwot
 Suggests: 
     knitr,
     rmarkdown,
     pkgdown
 Remotes:
-    drighelli/SpatialExperiment@master,
-    lmweber/STexampleData@no_accessors,
-    lmweber/ggspavis@main,
-    PeteHaitch/DelayedMatrixStats@906ef69596558b0b7436ce95ad81a529062fa38c
+    lmweber/ggspavis@main
 URL: https://github.com/lmweber/OSTAWorkshopBioc2021
 BugReports: https://github.com/lmweber/OSTAWorkshopBioc2021/issues/new/choose
 VignetteBuilder: knitr
