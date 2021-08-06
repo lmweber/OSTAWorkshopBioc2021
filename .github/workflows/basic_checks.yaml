@@ -16,6 +16,8 @@ jobs:
           BiocManager::install(ask=FALSE)
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
+        with:
+          MY_TOKEN: ${{ secrets.MY_TOKEN }}
         
       - name: Cache R packages
         if: runner.os != 'Windows'
@@ -24,6 +26,7 @@ jobs:
           path: /usr/local/lib/R/site-library
           key: ${{ env.cache-version }}-${{ runner.os }}-r-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ env.cache-version }}-${{ runner.os }}-r-
+          MY_TOKEN: ${{ secrets.MY_TOKEN }}
 
       # This lets us augment with additional dependencies
       - name: Install system dependencies
@@ -34,6 +37,8 @@ jobs:
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
+        with:
+          MY_TOKEN: ${{ secrets.MY_TOKEN }}
           
       - name: Install dependencies
         run: |
@@ -42,28 +47,36 @@ jobs:
           remotes::install_deps(dependencies = TRUE, repos = BiocManager::repositories())
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
+        with:
+          MY_TOKEN: ${{ secrets.MY_TOKEN }}
 
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
         run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
+        with:
+          MY_TOKEN: ${{ secrets.MY_TOKEN }}
       
 
       - name: Build pkgdown
         run: |
            PATH=$PATH:$HOME/bin/ Rscript -e 'pkgdown::build_site(".")'
+        with:
+          MY_TOKEN: ${{ secrets.MY_TOKEN }}
 
       # deploy needs rsync? Seems so.
       - name: Install deploy dependencies
         run: |
           apt-get update
           apt-get -y install rsync
+        with:
+          MY_TOKEN: ${{ secrets.MY_TOKEN }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MY_TOKEN: ${{ secrets.MY_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: docs # The folder the action should deploy.
 
@@ -83,3 +96,4 @@ jobs:
           tag_with_ref: true
           tag_with_sha: true
           tags: latest
+          MY_TOKEN: ${{ secrets.MY_TOKEN }}
