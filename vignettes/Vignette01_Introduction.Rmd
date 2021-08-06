@@ -38,7 +38,7 @@ The following schematic illustrates how this platform works.
 
 This gives us a set of transcriptome-wide expression counts on a grid of approximately 5000 spots, on a capture area of size 6.5mm x 6.5mm.
 
-```{r, echo=FALSE, fig.wide=TRUE, fig.align="center", fig.cap="Schematic of 10x Genomics Visium platform. Image source: [10x Genomics Visium website](https://www.10xgenomics.com/spatial-transcriptomics/)"}
+```{r, echo=FALSE, out.width="100%", fig.align="center", fig.cap="Schematic of 10x Genomics Visium platform. Image source: [10x Genomics Visium website](https://www.10xgenomics.com/spatial-transcriptomics/)"}
 knitr::include_graphics("images/Visium.png")
 ```
 
@@ -53,7 +53,7 @@ Here, we note that the [OSCA](https://bioconductor.org/books/release/OSCA/) book
 
 However, this approximation (spots as equivalent to cells) is not perfect -- spots may contain zero, one, or many cells -- and in addition it ignores any additional information contained in the spatial relationships or distances between spots.
 
-```{r, echo=FALSE, out.width="40%", fig.align="center", fig.cap="Screenshot of the OSCA online book."}
+```{r, echo=FALSE, out.width="60%", fig.align="center", fig.cap="Screenshot of the OSCA online book."}
 knitr::include_graphics("images/OSCA.png")
 ```
 
