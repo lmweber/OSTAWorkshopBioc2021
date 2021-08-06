@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">OSTAWorkshopBioc2021</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -57,7 +57,7 @@
       <a href="../articles/Vignette01_Introduction.html">1. Introduction</a>
     </li>
     <li>
-      <a href="../articles/Vignette02_Preprocessing_SPE.html">2. Preprocessing and SpatialExperiment</a>
+      <a href="../articles/Vignette02_Dataset_and_preprocessing.html">2. Dataset and preprocessing</a>
     </li>
     <li>
       <a href="../articles/Vignette03_Analysis_workflow.html">3. Analysis workflow</a>
@@ -100,26 +100,21 @@
 <div id="visium-human-dlpfc-workflow" class="section level2">
 <h2 class="hasAnchor">
 <a href="#visium-human-dlpfc-workflow" class="anchor"></a>Visium human DLPFC workflow</h2>
-<p>This workflow analyzes one sample of human brain from the dorsolateral prefrontal cortex (DLPFC) region, measured using the 10x Genomics Visium platform.</p>
-</div>
-<div id="description-of-dataset" class="section level2">
-<h2 class="hasAnchor">
-<a href="#description-of-dataset" class="anchor"></a>Description of dataset</h2>
-<p>This is a 10x Genomics Visium dataset generated from healthy human brain samples from the dorsolateral prefrontal cortex (DLPFC) region.</p>
-<p>In the full dataset, there are 12 samples in total, from 3 individuals, with 2 pairs of “spatially adjacent” replicates (serial sections) per individual (4 samples per individual). The individuals and spatially adjacent replicates can be considered as blocking factors. Each sample spans the six layers of the cortex plus white matter in a perpendicular tissue section.</p>
-<p>For the examples in this workflow and the analysis chapters, we use a single sample from this dataset (sample 151673).</p>
-<p>This dataset is described in our publication <span class="citation">@Maynard2021</span>. The full dataset is publicly available through the <a href="http://bioconductor.org/packages/spatialLIBD">spatialLIBD</a> Bioconductor package, and the analysis code from our paper is provided in the <a href="https://github.com/LieberInstitute/HumanPilot">HumanPilot</a> GitHub repository. The dataset can also be explored interactively through the <a href="http://spatial.libd.org/spatialLIBD/">spatialLIBD Shiny web app</a>.</p>
+<p>In this vignette, we demonstrate the steps in a computational analysis workflow for spatially resolved transcriptomics (ST), using an example dataset from the 10x Genomics Visium platform.</p>
+<p>As described in the previous vignette, the datasets consists of a single sample (sample 151673) from the human brain dorsolateral prefrontal cortex (DLPFC) region, previously described in our publication <a href="https://www.nature.com/articles/s41593-020-00787-0">Maynard and Collado-Torres et al. 2021</a>. The original dataset can be obtained through the <a href="http://bioconductor.org/packages/spatialLIBD">spatialLIBD</a> Bioconductor package.</p>
 </div>
 <div id="load-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#load-data" class="anchor"></a>Load data</h2>
-<p>Here, we load a single sample from this dataset (sample 151673), which is available as a <code>SpatialExperiment</code> object from the <a href="https://bioconductor.org/packages/STexampleData">STexampleData</a> package.</p>
-<p>For this workshop, we use the latest development version of <a href="https://github.com/lmweber/STexampleData">STexampleData</a> available from GitHub.</p>
+<p>We begin by loading the dataset.</p>
+<p>We have stored a copy of this dataset in <code>SpatialExperiment</code> format in the <a href="https://bioconductor.org/packages/STexampleData">STexampleData</a> package, to make it easier to load.</p>
+<p>If you are using the latest <code>devel</code> version of Bioconductor 3.14, the dataset can be loaded as follows.</p>
+<p>Alternatively, if you are working in a <code>release</code> version of Bioconductor 3.13, the helper function in comments can be used instead.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">SpatialExperiment</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lmweber/STexampleData">STexampleData</a></span><span class="op">)</span>
 
-<span class="co"># load dataset using latest GitHub version</span>
+<span class="co"># load dataset from ExperimentHub</span>
 <span class="va">spe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/STexampleData/man/STexampleData.html">Visium_humanDLPFC</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">spe</span>
 <span class="co">#&gt; class: SpatialExperiment </span>
@@ -140,8 +135,8 @@
 <span class="co">#&gt; spatialCoords names(2) : x y</span>
 <span class="co">#&gt; imgData names(4): sample_id image_id data scaleFactor</span>
 
-<span class="co"># alternatively: load dataset from ExperimentHub</span>
-<span class="co"># spe &lt;- Visium_humanDLPFC()</span>
+<span class="co"># alternatively: load dataset using helper function</span>
+<span class="co"># spe &lt;- load_data("Visium_humanDLPFC")</span>
 <span class="co"># spe</span></code></pre></div>
 </div>
 <div id="plot-data" class="section level2">
@@ -165,7 +160,7 @@
 <span class="va">spe</span> <span class="op">&lt;-</span> <span class="va">spe</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html">spatialData</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span><span class="op">$</span><span class="va">in_tissue</span> <span class="op">==</span> <span class="fl">1</span><span class="op">]</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span>
 <span class="co">#&gt; [1] 33538  3639</span></code></pre></div>
-<p>Next, calculate spot-level QC metrics using the <code>scater</code> package <span class="citation">[@McCarthy2017]</span>, and store the QC metrics in <code>colData</code>.</p>
+<p>Next, calculate spot-level QC metrics using the <code>scater</code> package (<a href="https://doi.org/10.1093/bioinformatics/btw777">McCarthy et al. 2017</a>), and store the QC metrics in <code>colData</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioconductor.org/packages/scater/">scater</a></span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -246,7 +241,7 @@
 <div id="normalization" class="section level2">
 <h2 class="hasAnchor">
 <a href="#normalization" class="anchor"></a>Normalization</h2>
-<p>Calculate log-transformed normalized counts, using pool-based size factors and deconvolution to the spot level. We use normalization methods from <code>scater</code> <span class="citation">[@McCarthy2017]</span> and <code>scran</code> <span class="citation">[@Lun2016]</span>, by assuming that these methods can be applied by treating spots as equivalent to cells. Since we have a single sample, there are no blocking factors.</p>
+<p>Calculate log-transformed normalized counts, using pool-based size factors and deconvolution to the spot level. We use normalization methods from <code>scater</code> (<a href="https://doi.org/10.1093/bioinformatics/btw777">McCarthy et al. 2017</a>) and <code>scran</code> (<a href="https://f1000research.com/articles/5-2122/v2">Lun et al. 2016</a>), by assuming that these methods can be applied by treating spots as equivalent to cells. Since we have a single sample, there are no blocking factors.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scran</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -277,7 +272,7 @@
 <div id="feature-selection" class="section level2">
 <h2 class="hasAnchor">
 <a href="#feature-selection" class="anchor"></a>Feature selection</h2>
-<p>Identify a set of top highly variable genes (HVGs), which will be used to define cell types. We use methods from <code>scran</code> <span class="citation">[@Lun2016]</span>, treating spots as equivalent to cells. We also first filter out mitochondrial genes, since these are very highly expressed and not of biological interest here.</p>
+<p>Identify a set of top highly variable genes (HVGs), which will be used to define cell types. We use methods from <code>scran</code> (<a href="https://f1000research.com/articles/5-2122/v2">Lun et al. 2016</a>), treating spots as equivalent to cells. We also first filter out mitochondrial genes, since these are very highly expressed and not of biological interest here.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># remove mitochondrial genes</span>
 <span class="va">spe</span> <span class="op">&lt;-</span> <span class="va">spe</span><span class="op">[</span><span class="op">!</span><span class="va">is_mito</span>, <span class="op">]</span>
@@ -304,7 +299,7 @@
 <h2 class="hasAnchor">
 <a href="#dimensionality-reduction" class="anchor"></a>Dimensionality reduction</h2>
 <p>Run principal component analysis (PCA) on the set of top HVGs, and retain the top 50 principal components (PCs) for further downstream analyses. This is done to reduce noise and to improve computational efficiency. We also run UMAP on the set of top 50 PCs and retain the top 2 UMAP components for visualization purposes.</p>
-<p>We use the computationally efficient implementation of PCA available in <code>scater</code> <span class="citation">[@McCarthy2017]</span>, which uses randomization, and therefore requires setting a random seed for reproducibility.</p>
+<p>We use the computationally efficient implementation of PCA available in <code>scater</code> (<a href="https://doi.org/10.1093/bioinformatics/btw777">McCarthy et al. 2017</a>), which uses randomization, and therefore requires setting a random seed for reproducibility.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># compute PCA</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
@@ -330,7 +325,7 @@
 <div id="clustering" class="section level2">
 <h2 class="hasAnchor">
 <a href="#clustering" class="anchor"></a>Clustering</h2>
-<p>Next, we perform clustering to define cell types. We apply graph-based clustering using the Walktrap method implemented in <code>scran</code> <span class="citation">[@Lun2016]</span>, applied to the top 50 PCs calculated on the set of top HVGs.</p>
+<p>Next, we perform clustering to define cell types. We apply graph-based clustering using the Walktrap method implemented in <code>scran</code> (<a href="https://f1000research.com/articles/5-2122/v2">Lun et al. 2016</a>), applied to the top 50 PCs calculated on the set of top HVGs.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># graph-based clustering</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
@@ -367,7 +362,7 @@
 <div id="marker-genes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#marker-genes" class="anchor"></a>Marker genes</h2>
-<p>Identify marker genes by testing for differential gene expression between clusters. We use the <code>findMarkers</code> implementation in <code>scran</code> <span class="citation">[@Lun2016]</span>, using a binomial test, which tests for genes that differ in the proportion expressed vs. not expressed between clusters. This is a more stringent test than the default t-tests, and tends to select genes that are easier to interpret and validate experimentally.</p>
+<p>Identify marker genes by testing for differential gene expression between clusters. We use the <code>findMarkers</code> implementation in <code>scran</code> (<a href="https://f1000research.com/articles/5-2122/v2">Lun et al. 2016</a>), using a binomial test, which tests for genes that differ in the proportion expressed vs. not expressed between clusters. This is a more stringent test than the default t-tests, and tends to select genes that are easier to interpret and validate experimentally.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># set gene names as row names for easier plotting</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">rowData</span><span class="op">(</span><span class="va">spe</span><span class="op">)</span><span class="op">$</span><span class="va">gene_name</span>
