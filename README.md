@@ -50,3 +50,21 @@ docker run -e PASSWORD=abc -p 8787:8787 lmweber/ostaworkshopbioc2021:latest
 
 Then navigate to http://localhost:8787/ in your browser, and log in with username `rstudio` and password `abc`.
 
+
+## Acknowledgments
+
+OSTA contributors:
+
+- Abby Spangler, *Lieber Institute for Brain Development, Baltimore, MD, USA*
+- Madhavi Tippani, *Lieber Institute for Brain Development, Baltimore, MD, USA*
+- Leonardo Collado-Torres, *Lieber Institute for Brain Development, Baltimore, MD, USA*
+- Stephanie C. Hicks, *Johns Hopkins Bloomberg School of Public Health, Baltimore, MD, USA*
+
+`SpatialExperiment`:
+
+- Dario Righelli, *Department of Statistical Sciences, University of Padova, Padova, Italy*
+- Helena L. Crowell, *Department of Molecular Life Sciences, University of Zurich, Zurich, Switzerland*
+- Aaron Lun, *Genentech, South San Francisco, CA, USA*
+- Stephanie C. Hicks, *Johns Hopkins Bloomberg School of Public Health, Baltimore, MD, USA*
+- Davide Risso, *Department of Statistical Sciences, University of Padova, Padova, Italy*
+
