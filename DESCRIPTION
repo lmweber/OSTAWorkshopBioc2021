@@ -23,13 +23,16 @@ Imports:
     scater,
     scran,
     pheatmap,
-    uwot
+    uwot,
+    DelayedMatrixStats
 Suggests: 
     knitr,
     rmarkdown,
     pkgdown
 Remotes:
-    lmweber/ggspavis@main
+    lmweber/STexampleData@main,
+    lmweber/ggspavis@main,
+    PeteHaitch/DelayedMatrixStats@master
 URL: https://github.com/lmweber/OSTAWorkshopBioc2021
 BugReports: https://github.com/lmweber/OSTAWorkshopBioc2021/issues/new/choose
 VignetteBuilder: knitr
