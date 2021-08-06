@@ -3,6 +3,7 @@ on: [push, pull_request]
 env:
   cache-version: v1
   repo-name: lmweber/ostaworkshopbioc2021  # dockerhub repo
+  GITHUB_PAT: ${{ secrets.MY_TOKEN }}  # temporary fix for GitHub token
 
 jobs:
   job1:
