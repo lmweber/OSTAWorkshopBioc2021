@@ -55,7 +55,7 @@ For each Visium sample, we obtain a matrix of read counts for up to 5,000 spots,
 
 In addition, we have the image of the tissue slide (described in following sections), allowing us to align the molecular and spatial information.
 
-```{r, echo=FALSE, out.width="100%", fig.align="center", fig.cap="Schematic of data format from 10x Genomics Visium platform."}
+```{r, echo=FALSE, out.width="50%", fig.align="center", fig.cap="Schematic of data format from 10x Genomics Visium platform."}
 knitr::include_graphics("../inst/images/data_structure_schematic.png")
 ```
 
@@ -70,7 +70,7 @@ Here, we note that the [OSCA](https://bioconductor.org/books/release/OSCA/) book
 
 However, this approximation (spots as equivalent to cells) is not perfect -- spots may contain zero, one, or many cells -- and in addition it ignores any additional information contained in the spatial relationships or distances between spots.
 
-```{r, echo=FALSE, out.width="60%", fig.align="center", fig.cap="Screenshot of [OSCA online book](https://bioconductor.org/books/release/OSCA/)."}
+```{r, echo=FALSE, out.width="70%", fig.align="center", fig.cap="Screenshot of [OSCA online book](https://bioconductor.org/books/release/OSCA/)."}
 knitr::include_graphics("../inst/images/OSCA.png")
 ```
 
