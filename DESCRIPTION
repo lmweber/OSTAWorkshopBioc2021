@@ -30,6 +30,7 @@ Suggests:
     rmarkdown,
     pkgdown
 Remotes:
+    drighelli/SpatialExperiment@master,
     lmweber/STexampleData@main,
     lmweber/ggspavis@main,
     PeteHaitch/DelayedMatrixStats@master
