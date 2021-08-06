@@ -19,15 +19,12 @@ knitr::opts_chunk$set(
 Last updated: `r Sys.Date()`
 
 
-# Overview
-
-
-### Visium human DLPFC workflow
+## Visium human DLPFC workflow
 
 This workflow analyzes one sample of human brain from the dorsolateral prefrontal cortex (DLPFC) region, measured using the 10x Genomics Visium platform.
 
 
-### Description of dataset
+## Description of dataset
 
 This is a 10x Genomics Visium dataset generated from healthy human brain samples from the dorsolateral prefrontal cortex (DLPFC) region.
 
@@ -38,7 +35,7 @@ For the examples in this workflow and the analysis chapters, we use a single sam
 This dataset is described in our publication @Maynard2021. The full dataset is publicly available through the [spatialLIBD](http://bioconductor.org/packages/spatialLIBD) Bioconductor package, and the analysis code from our paper is provided in the [HumanPilot](https://github.com/LieberInstitute/HumanPilot) GitHub repository. The dataset can also be explored interactively through the [spatialLIBD Shiny web app](http://spatial.libd.org/spatialLIBD/).
 
 
-### Load data
+## Load data
 
 Here, we load a single sample from this dataset (sample 151673), which is available as a `SpatialExperiment` object from the [STexampleData](https://bioconductor.org/packages/STexampleData) package.
 
@@ -58,7 +55,7 @@ spe
 ```
 
 
-### Plot data
+## Plot data
 
 As an initial check, plot the spatial coordinates (spots) in x-y dimensions on the tissue slide, to check that the object has loaded correctly and that the orientation is as expected.
 
@@ -74,7 +71,7 @@ plotSpots(spe)
 ```
 
 
-### Quality control (QC)
+## Quality control (QC)
 
 First, we subset the object to keep only spots over tissue.
 
@@ -147,7 +144,7 @@ dim(spe)
 ```
 
 
-### Normalization
+## Normalization
 
 Calculate log-transformed normalized counts, using pool-based size factors and deconvolution to the spot level. We use normalization methods from `scater` [@McCarthy2017] and `scran` [@Lun2016], by assuming that these methods can be applied by treating spots as equivalent to cells. Since we have a single sample, there are no blocking factors.
 
@@ -174,7 +171,7 @@ assayNames(spe)
 ```
 
 
-### Feature selection
+## Feature selection
 
 Identify a set of top highly variable genes (HVGs), which will be used to define cell types. We use methods from `scran` [@Lun2016], treating spots as equivalent to cells. We also first filter out mitochondrial genes, since these are very highly expressed and not of biological interest here.
 
@@ -200,7 +197,7 @@ length(top_hvgs)
 ```
 
 
-### Dimensionality reduction
+## Dimensionality reduction
 
 Run principal component analysis (PCA) on the set of top HVGs, and retain the top 50 principal components (PCs) for further downstream analyses. This is done to reduce noise and to improve computational efficiency. We also run UMAP on the set of top 50 PCs and retain the top 2 UMAP components for visualization purposes.
 
@@ -228,7 +225,7 @@ colnames(reducedDim(spe, "UMAP")) <- paste0("UMAP", 1:2)
 ```
 
 
-### Clustering
+## Clustering
 
 Next, we perform clustering to define cell types. We apply graph-based clustering using the Walktrap method implemented in `scran` [@Lun2016], applied to the top 50 PCs calculated on the set of top HVGs.
 
@@ -266,7 +263,7 @@ plotDimRed(spe, type = "UMAP",
 ```
 
 
-### Marker genes
+## Marker genes
 
 Identify marker genes by testing for differential gene expression between clusters. We use the `findMarkers` implementation in `scran` [@Lun2016], using a binomial test, which tests for genes that differ in the proportion expressed vs. not expressed between clusters. This is a more stringent test than the default t-tests, and tends to select genes that are easier to interpret and validate experimentally.
 
