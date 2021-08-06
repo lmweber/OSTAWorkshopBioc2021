@@ -1,6 +1,6 @@
 Package: OSTAWorkshopBioc2021
 Title: OSTA workshop for Bioc2021 conference
-Version: 0.9.0
+Version: 1.0.0
 Authors@R: 
     person(given = "Lukas M.",
            family = "Weber",
