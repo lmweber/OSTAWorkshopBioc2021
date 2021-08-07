@@ -96,44 +96,44 @@
 
     
     
-<p>Last updated: 2021-08-06</p>
+<p>Last updated: 2021-08-07</p>
 <div id="example-dataset-human-brain-dlpfc-region" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-dataset-human-brain-dlpfc-region" class="anchor"></a>Example dataset: human brain DLPFC region</h2>
-<p>For the examples in this workshop, we use a human brain dataset from the <a href="https://www.10xgenomics.com/products/spatial-gene-expression">10x Genomics Visium</a> platform, which was previously described in our publication <a href="https://www.nature.com/articles/s41593-020-00787-0">Maynard and Collado-Torres et al. 2021</a>.</p>
-<p>The example datasets consists of a single sample from the human brain dorsolateral prefrontal cortex (DLPFC) region. This region contains six cortical layers and white matter, which can be distinguished by their molecular expression profiles.</p>
+<p>For the examples in this workshop, we use a human brain dataset from the <a href="https://www.10xgenomics.com/products/spatial-gene-expression">10x Genomics Visium</a> platform, which was previously described in our publication <a href="https://www.nature.com/articles/s41593-020-00787-0">Maynard and Collado-Torres et al. (2021)</a>.</p>
+<p>The example dataset consists of a single sample from the human brain dorsolateral prefrontal cortex (DLPFC) region. This region contains six cortical layers and white matter, which can be distinguished by their molecular expression profiles, and have a layered spatial structure.</p>
 <p>The full dataset contains 12 samples in total, from 3 individuals, with 2 pairs of “spatially adjacent” replicates (serial sections) per individual (4 samples per individual). The individuals and spatially adjacent replicates can be considered as blocking factors. Each sample spans the six layers of the cortex plus white matter in a perpendicular tissue section.</p>
 <p>For the examples in this workshop, we use a single sample from this dataset (sample 151673).</p>
-<p>For more details, see <a href="https://www.nature.com/articles/s41593-020-00787-0">Maynard and Collado-Torres et al. 2021</a>. The full dataset is publicly available through the <a href="http://bioconductor.org/packages/spatialLIBD">spatialLIBD</a> Bioconductor package, and the analysis code from our paper is provided in the <a href="https://github.com/LieberInstitute/HumanPilot">HumanPilot</a> GitHub repository. The dataset can also be explored interactively through the <a href="http://spatial.libd.org/spatialLIBD/">spatialLIBD Shiny web app</a>.</p>
+<p>For more details, see <a href="https://www.nature.com/articles/s41593-020-00787-0">Maynard and Collado-Torres et al. (2021)</a>. The full dataset is publicly available through the <a href="http://bioconductor.org/packages/spatialLIBD">spatialLIBD</a> Bioconductor package, and the analysis code from our paper is provided in the <a href="https://github.com/LieberInstitute/HumanPilot">HumanPilot</a> GitHub repository. The dataset can also be explored interactively through the <a href="http://spatial.libd.org/spatialLIBD/">spatialLIBD Shiny web app</a>.</p>
 </div>
 <div id="preprocessing-steps" class="section level2">
 <h2 class="hasAnchor">
 <a href="#preprocessing-steps" class="anchor"></a>Preprocessing steps</h2>
-<p>After performing the Visium experiment, there are several steps need to process the data and load it into R for downstream analysis.</p>
-<p>These steps are described in detail in <a href="https://lmweber.org/OSTA-book/preprocessing-steps.html">Preprocessing steps</a> in OSTA. Here, we provide a short overview.</p>
+<p>After performing the Visium experiment, there are several steps needed to process the data and load it into R for downstream analysis.</p>
+<p>These steps are described in detail in the <a href="https://lmweber.org/OSTA-book/preprocessing-steps.html">Preprocessing steps</a> part in OSTA. Here, we provide a short overview and links.</p>
 </div>
 <div id="image-segmentation-and-cell-counting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#image-segmentation-and-cell-counting" class="anchor"></a>Image segmentation and cell counting</h2>
 <p>The first step is to process the raw images, which includes splitting multiple capture areas into individual samples, segmenting cell nuclei, and identifying the number of cells per spot.</p>
-<p>For more details, see the chapter <a href="https://lmweber.org/OSTA-book/image-segmentation-visium.html">Image segmentation (Visium)</a> in OSTA, as well as the paper <a href="https://www.biorxiv.org/content/10.1101/2021.08.04.452489v1">Tippani et al. 2021</a> describing the <a href="https://github.com/LieberInstitute/VistoSeg">VistoSeg</a> tool.</p>
-<p>Note that part of this step also requires the <code>Space Ranger</code> outputs described next.</p>
+<p>For more details, see the chapter <a href="https://lmweber.org/OSTA-book/image-segmentation-visium.html">Image segmentation (Visium)</a> in OSTA, as well as the paper <a href="https://www.biorxiv.org/content/10.1101/2021.08.04.452489v1">Tippani et al. (2021)</a> describing the <a href="https://github.com/LieberInstitute/VistoSeg">VistoSeg</a> tool.</p>
+<p>Note that part of this step also requires the Space Ranger outputs described next.</p>
 </div>
 <div id="loupe-browser-and-space-ranger" class="section level2">
 <h2 class="hasAnchor">
 <a href="#loupe-browser-and-space-ranger" class="anchor"></a>Loupe Browser and Space Ranger</h2>
-<p>The <a href="https://www.10xgenomics.com/products/loupe-browser">Loupe Browser</a> and <a href="https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/what-is-space-ranger">Space Ranger</a> software provided by 10x Genomics are used to match the sequencing data to the appropriate spatial coordinates on the image, read alignment, as well as an initial inspection of data quality.</p>
+<p>The <a href="https://www.10xgenomics.com/products/loupe-browser">Loupe Browser</a> and <a href="https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/what-is-space-ranger">Space Ranger</a> software provided by 10x Genomics are used to align sequencing reads, match the sequencing data to the spatial coordinates on the image, as well as an initial inspection of data quality and exploration of the data.</p>
 <p>For more details, see chapters <a href="https://lmweber.org/OSTA-book/loupe-browser-visium.html">Loupe Browser (Visium)</a> and <a href="https://lmweber.org/OSTA-book/space-ranger-visium.html">Space Ranger (Visium)</a> in OSTA.</p>
 </div>
 <div id="spatialexperiment" class="section level2">
 <h2 class="hasAnchor">
 <a href="#spatialexperiment" class="anchor"></a>SpatialExperiment</h2>
-<p>After running Loupe Browser and Space Ranger, we are ready to load the data in to R.</p>
-<p>For this, we use the <a href="https://bioconductor.org/packages/SpatialExperiment">SpatialExperiment</a> data structure. For more details, see the chapter <a href="https://lmweber.org/OSTA-book/spatialexperiment.html">SpatialExperiment</a> in OSTA, or our previous <a href="https://drighelli.github.io/SpatialExperiment_Bioc2021/index.html">SpatialExperiment workshop</a>.</p>
-<p>The schematic below illustrates the <code>SpatialExperiment</code> structure, which extends <a href="https://bioconductor.org/packages/SingleCellExperiment">SingleCellExperiment</a> to include additional spatial information. The structure is flexible, and has been designed to work with data from 10x Genomics Visium as well as other spot-based and molecule-based ST platfroms.</p>
+<p>After running Loupe Browser and Space Ranger, we are ready to load the data into R.</p>
+<p>For this, we use the <a href="https://bioconductor.org/packages/SpatialExperiment">SpatialExperiment</a> data structure. For more details, see the <a href="https://lmweber.org/OSTA-book/spatialexperiment.html">SpatialExperiment</a> chapter in OSTA, or our additional <a href="https://drighelli.github.io/SpatialExperiment_Bioc2021/index.html">SpatialExperiment workshop</a>.</p>
+<p>The schematic below illustrates the <code>SpatialExperiment</code> structure, which extends <a href="https://bioconductor.org/packages/SingleCellExperiment">SingleCellExperiment</a> to include additional spatial information. The structure is flexible, and has been designed to work with data from 10x Genomics Visium as well as other spot-based and molecule-based ST platforms.</p>
 <div class="figure" style="text-align: center">
-<img src="../inst/images/spe.png" alt="SpatialExperiment structure" width="80%"><p class="caption">
-SpatialExperiment structure
+<img src="../inst/images/spe.png" alt="Schematic illustrating [SpatialExperiment](https://bioconductor.org/packages/SpatialExperiment) class structure." width="100%"><p class="caption">
+Schematic illustrating <a href="https://bioconductor.org/packages/SpatialExperiment">SpatialExperiment</a> class structure.
 </p>
 </div>
 </div>

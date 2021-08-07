@@ -88,7 +88,7 @@
 <div id="ostaworkshopbioc2021" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#ostaworkshopbioc2021" class="anchor"></a>OSTAWorkshopBioc2021</h1></div>
-<p>This repository contains materials for our <a href="https://lmweber.org/OSTA-book/">OSTA</a> workshop for the <a href="https://bioc2021.bioconductor.org/">Bioc2021 conference</a>.</p>
+<p>This repository contains materials for our <a href="https://lmweber.org/OSTA-book/">OSTA</a> workshop at the <a href="https://bioc2021.bioconductor.org/">Bioc2021 conference</a>.</p>
 <div id="links" class="section level2">
 <h2 class="hasAnchor">
 <a href="#links" class="anchor"></a>Links</h2>
@@ -104,7 +104,7 @@
 <a href="#overview" class="anchor"></a>Overview</h2>
 <p>Our online textbook <a href="https://lmweber.org/OSTA-book/">Orchestrating Spatially Resolved Transcriptomics Analysis with Bioconductor (OSTA)</a> describes the steps in a computational analysis pipeline for spatially resolved transcriptomics (ST) data using the Bioconductor framework in R, including examples and workflows with R code and datasets.</p>
 <p>OSTA is built around the <a href="https://bioconductor.org/packages/SpatialExperiment">SpatialExperiment</a> object class and the Bioconductor principle of modularity, which allows users to easily adapt the pipeline to substitute alternative or updated methods for individual steps.</p>
-<p>In particular, OSTA and <code>SpatialExperiment</code> are compatible with <a href="https://bioconductor.org/packages/SingleCellExperiment">SingleCellExperiment</a>, allowing existing methods and pipelines developed for single-cell RNA sequencing data (such as those described in <a href="https://bioconductor.org/books/release/OSCA/">OSCA</a> to be re-used and adapted to the spatial context.</p>
+<p>In particular, OSTA and <code>SpatialExperiment</code> are compatible with <a href="https://bioconductor.org/packages/SingleCellExperiment">SingleCellExperiment</a>, allowing existing methods and pipelines developed for single-cell RNA sequencing data (such as those described in <a href="https://bioconductor.org/books/release/OSCA/">OSCA</a>) to be re-used and adapted to the spatial context.</p>
 </div>
 <div id="prerequisites" class="section level2">
 <h2 class="hasAnchor">
@@ -119,24 +119,25 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>For this workshop, we will use R version 4.1 and a <code>devel</code> installation of Bioconductor 3.14.</p>
-<p>Alternatively, you can use a <code>release</code> version of Bioconductor 3.13 along with the following updated packages installed from GitHub:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">remotes::install_github</span><span class="er">(</span><span class="st">"drighelli/SpatialExperiment"</span><span class="ex">,</span> build_vignettes = TRUE<span class="kw">)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">remotes::install_github</span><span class="er">(</span><span class="st">"lmweber/STexampleData"</span><span class="ex">,</span> ref = <span class="st">"no_accessors"</span>, build_vignettes = TRUE<span class="kw">)</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">remotes::install_github</span><span class="er">(</span><span class="st">"lmweber/ggspavis"</span><span class="ex">,</span> build_vignettes = TRUE<span class="kw">)</span></span></code></pre></div>
+<p>For this workshop, we will use R version 4.1 and a <code>devel</code> installation of Bioconductor 3.14. In addition, you will need to install the following package from GitHub:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">remotes::install_github</span><span class="er">(</span><span class="st">"lmweber/ggspavis"</span><span class="ex">,</span> build_vignettes = TRUE<span class="kw">)</span></span></code></pre></div>
+<p>Alternatively, you can use a <code>release</code> version of Bioconductor 3.13 along with the following versions of packages installed from GitHub:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">remotes::install_github</span><span class="er">(</span><span class="st">"drighelli/SpatialExperiment"</span><span class="ex">,</span> build_vignettes = TRUE<span class="kw">)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">remotes::install_github</span><span class="er">(</span><span class="st">"lmweber/STexampleData"</span><span class="ex">,</span> ref = <span class="st">"no_accessors"</span>, build_vignettes = TRUE<span class="kw">)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">remotes::install_github</span><span class="er">(</span><span class="st">"lmweber/ggspavis"</span><span class="ex">,</span> build_vignettes = TRUE<span class="kw">)</span></span></code></pre></div>
 </div>
 <div id="docker-image" class="section level2">
 <h2 class="hasAnchor">
 <a href="#docker-image" class="anchor"></a>Docker image</h2>
 <p>A Docker image containing a complete version of all materials used in the workshop is also available. Note this is a large download.</p>
 <p>To run the Docker image:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-e</span> PASSWORD=abc <span class="at">-p</span> 8787:8787 lmweber/ostaworkshopbioc2021:latest</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-e</span> PASSWORD=abc <span class="at">-p</span> 8787:8787 lmweber/ostaworkshopbioc2021:latest</span></code></pre></div>
 <p>Then navigate to <a href="http://localhost:8787/" class="uri">http://localhost:8787/</a> in your browser, and log in with username <code>rstudio</code> and password <code>abc</code>.</p>
 </div>
 <div id="acknowledgments" class="section level2">
 <h2 class="hasAnchor">
 <a href="#acknowledgments" class="anchor"></a>Acknowledgments</h2>
-<p>OSTA contributors:</p>
+<p><a href="https://lmweber.org/OSTA-book/">OSTA</a> contributors:</p>
 <ul>
 <li>Abby Spangler, <em>Lieber Institute for Brain Development, Baltimore, MD, USA</em>
 </li>
@@ -147,7 +148,7 @@
 <li>Stephanie C. Hicks, <em>Johns Hopkins Bloomberg School of Public Health, Baltimore, MD, USA</em>
 </li>
 </ul>
-<p><code>SpatialExperiment</code>:</p>
+<p><a href="https://bioconductor.org/packages/SpatialExperiment">SpatialExperiment</a>:</p>
 <ul>
 <li>Dario Righelli, <em>Department of Statistical Sciences, University of Padova, Padova, Italy</em>
 </li>

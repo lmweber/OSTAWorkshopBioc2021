@@ -96,20 +96,19 @@
 
     
     
-<p>Last updated: 2021-08-06</p>
+<p>Last updated: 2021-08-07</p>
 <div id="visium-human-dlpfc-workflow" class="section level2">
 <h2 class="hasAnchor">
 <a href="#visium-human-dlpfc-workflow" class="anchor"></a>Visium human DLPFC workflow</h2>
-<p>In this vignette, we demonstrate the steps in a computational analysis workflow for spatially resolved transcriptomics (ST), using an example dataset from the 10x Genomics Visium platform.</p>
-<p>As described in the previous vignette, the datasets consists of a single sample (sample 151673) from the human brain dorsolateral prefrontal cortex (DLPFC) region, previously described in our publication <a href="https://www.nature.com/articles/s41593-020-00787-0">Maynard and Collado-Torres et al. 2021</a>. The original dataset can be obtained through the <a href="http://bioconductor.org/packages/spatialLIBD">spatialLIBD</a> Bioconductor package.</p>
+<p>In this vignette, we demonstrate the steps in a computational analysis workflow for spatially resolved transcriptomics (ST) data, using an example dataset from the 10x Genomics Visium platform.</p>
+<p>As described in the previous vignette, the dataset consists of a single sample (sample 151673) from the human brain dorsolateral prefrontal cortex (DLPFC) region, previously described in our publication <a href="https://www.nature.com/articles/s41593-020-00787-0">Maynard and Collado-Torres et al. (2021)</a>. The full original dataset can be obtained through the <a href="http://bioconductor.org/packages/spatialLIBD">spatialLIBD</a> Bioconductor package.</p>
 </div>
 <div id="load-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#load-data" class="anchor"></a>Load data</h2>
-<p>We begin by loading the dataset.</p>
-<p>We have stored a copy of this dataset in <code>SpatialExperiment</code> format in the <a href="https://bioconductor.org/packages/STexampleData">STexampleData</a> package, to make it easier to load.</p>
-<p>If you are using the latest <code>devel</code> version of Bioconductor 3.14, the dataset can be loaded as follows.</p>
-<p>Alternatively, if you are working in a <code>release</code> version of Bioconductor 3.13, the helper function in comments can be used instead.</p>
+<p>We begin by loading the dataset. We have stored a copy of this dataset in <a href="https://bioconductor.org/packages/SpatialExperiment">SpatialExperiment</a> format in the <a href="https://bioconductor.org/packages/STexampleData">STexampleData</a> package, to make it easier to load for use in examples and tutorials.</p>
+<p>If you are using the latest <code>devel</code> version of Bioconductor 3.14, the dataset can be loaded as shown in the code below.</p>
+<p>Alternatively, if you are working in a <code>release</code> version of Bioconductor 3.13, the helper function shown in the code comments can be used instead.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">SpatialExperiment</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lmweber/STexampleData">STexampleData</a></span><span class="op">)</span>
@@ -133,9 +132,9 @@
 <span class="co">#&gt; spatialData names(6) : barcode_id in_tissue ... pxl_col_in_fullres</span>
 <span class="co">#&gt;   pxl_row_in_fullres</span>
 <span class="co">#&gt; spatialCoords names(2) : x y</span>
-<span class="co">#&gt; imgData names(4): sample_id image_id data scaleFactor</span>
-
-<span class="co"># alternatively: load dataset using helper function</span>
+<span class="co">#&gt; imgData names(4): sample_id image_id data scaleFactor</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># alternatively: load dataset using helper function if working in Bioc 3.13</span>
 <span class="co"># spe &lt;- load_data("Visium_humanDLPFC")</span>
 <span class="co"># spe</span></code></pre></div>
 </div>
@@ -144,26 +143,26 @@
 <a href="#plot-data" class="anchor"></a>Plot data</h2>
 <p>As an initial check, plot the spatial coordinates (spots) in x-y dimensions on the tissue slide, to check that the object has loaded correctly and that the orientation is as expected.</p>
 <p>We use visualization functions from the <a href="https://github.com/lmweber/ggpavis">ggspavis</a> package to generate plots.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lmweber/ggspavis">ggspavis</a></span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lmweber/ggspavis">ggspavis</a></span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># plot spatial coordinates (spots)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggspavis/man/plotSpots.html">plotSpots</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span></code></pre></div>
-<p><img src="Vignette03_Analysis_workflow_files/figure-html/plot_data-1.png" width="700"></p>
+<p><img src="Vignette03_Analysis_workflow_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
 <div id="quality-control-qc" class="section level2">
 <h2 class="hasAnchor">
 <a href="#quality-control-qc" class="anchor"></a>Quality control (QC)</h2>
 <p>First, we subset the object to keep only spots over tissue.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># subset to keep only spots over tissue</span>
 <span class="va">spe</span> <span class="op">&lt;-</span> <span class="va">spe</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html">spatialData</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span><span class="op">$</span><span class="va">in_tissue</span> <span class="op">==</span> <span class="fl">1</span><span class="op">]</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span>
 <span class="co">#&gt; [1] 33538  3639</span></code></pre></div>
-<p>Next, calculate spot-level QC metrics using the <code>scater</code> package (<a href="https://doi.org/10.1093/bioinformatics/btw777">McCarthy et al. 2017</a>), and store the QC metrics in <code>colData</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioconductor.org/packages/scater/">scater</a></span><span class="op">)</span></code></pre></div>
+<p>Next, calculate spot-level quality control (QC) metrics using the <a href="https://bioconductor.org/packages/scater">scater</a> package (<a href="https://doi.org/10.1093/bioinformatics/btw777">McCarthy et al. 2017</a>) and store the QC metrics in <code>colData</code> in the object.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioconductor.org/packages/scater/">scater</a></span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># identify mitochondrial genes</span>
 <span class="va">is_mito</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"(^MT-)|(^mt-)"</span>, <span class="fu">rowData</span><span class="op">(</span><span class="va">spe</span><span class="op">)</span><span class="op">$</span><span class="va">gene_name</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">is_mito</span><span class="op">)</span>
@@ -193,16 +192,16 @@
 <span class="co">#&gt; AAACAAGTATCTCCCA-1      8458</span>
 <span class="co">#&gt; AAACAATCTACTAGCA-1      1667</span>
 <span class="co">#&gt; AAACACCAATAACTGC-1      3769</span></code></pre></div>
-<p>Select filtering thresholds for the QC metrics by examining distributions using histograms.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>Select filtering thresholds for the QC metrics by examining distributions using histograms. For more details, see the <a href="https://lmweber.org/OSTA-book/quality-control.html">Quality control</a> chapter in OSTA.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># histograms of QC metrics</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-colData.html">colData</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span><span class="op">$</span><span class="va">sum</span>, xlab <span class="op">=</span> <span class="st">"sum"</span>, main <span class="op">=</span> <span class="st">"UMIs per spot"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-colData.html">colData</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span><span class="op">$</span><span class="va">detected</span>, xlab <span class="op">=</span> <span class="st">"detected"</span>, main <span class="op">=</span> <span class="st">"Genes per spot"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-colData.html">colData</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span><span class="op">$</span><span class="va">subsets_mito_percent</span>, xlab <span class="op">=</span> <span class="st">"percent mitochondrial"</span>, main <span class="op">=</span> <span class="st">"Percent mito UMIs"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-colData.html">colData</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span><span class="op">$</span><span class="va">cell_count</span>, xlab <span class="op">=</span> <span class="st">"number of cells"</span>, main <span class="op">=</span> <span class="st">"No. cells per spot"</span><span class="op">)</span></code></pre></div>
-<p><img src="Vignette03_Analysis_workflow_files/figure-html/QC_thresholds-1.png" width="672"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p><img src="Vignette03_Analysis_workflow_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># select QC thresholds</span>
@@ -225,14 +224,14 @@
 
 <span class="co"># store in object</span>
 <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-colData.html">colData</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span><span class="op">$</span><span class="va">discard</span> <span class="op">&lt;-</span> <span class="va">discard</span></code></pre></div>
-<p>Plot the set of discarded spots in the spatial x-y coordinates, to confirm that the spatial distribution of the discarded spots does not correspond to any biologically meaningful regions, which would indicate that we are removing biologically informative spots.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>Plot the set of discarded spots in x-y coordinates, to confirm that the spatial distribution of the discarded spots does not correspond to any obvious biologically meaningful regions, which would indicate that we are removing biologically informative spots.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># check spatial pattern of discarded spots</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggspavis/man/plotQC.html">plotQC</a></span><span class="op">(</span><span class="va">spe</span>, type <span class="op">=</span> <span class="st">"spots"</span>, discard <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span></code></pre></div>
-<p><img src="Vignette03_Analysis_workflow_files/figure-html/QC_check-1.png" width="700"></p>
+<p><img src="Vignette03_Analysis_workflow_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <p>There is some concentration of discarded spots at the edge of the tissue region, which may be due to tissue damage.</p>
 <p>We filter out the low-quality spots from the object.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># filter low-quality spots</span>
 <span class="va">spe</span> <span class="op">&lt;-</span> <span class="va">spe</span><span class="op">[</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-colData.html">colData</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span><span class="op">$</span><span class="va">discard</span><span class="op">]</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span>
@@ -241,10 +240,10 @@
 <div id="normalization" class="section level2">
 <h2 class="hasAnchor">
 <a href="#normalization" class="anchor"></a>Normalization</h2>
-<p>Calculate log-transformed normalized counts, using pool-based size factors and deconvolution to the spot level. We use normalization methods from <code>scater</code> (<a href="https://doi.org/10.1093/bioinformatics/btw777">McCarthy et al. 2017</a>) and <code>scran</code> (<a href="https://f1000research.com/articles/5-2122/v2">Lun et al. 2016</a>), by assuming that these methods can be applied by treating spots as equivalent to cells. Since we have a single sample, there are no blocking factors.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scran</span><span class="op">)</span></code></pre></div>
+<p>Calculate log-transformed normalized counts, using pool-based size factors and deconvolution to the spot level. We use normalization methods from <a href="https://bioconductor.org/packages/scater">scater</a> (<a href="https://doi.org/10.1093/bioinformatics/btw777">McCarthy et al. 2017</a>) and <a href="https://bioconductor.org/packages/scran">scran</a> (<a href="https://f1000research.com/articles/5-2122/v2">Lun et al. 2016</a>), by assuming that these methods can be applied by treating spots as equivalent to cells. Since we have a single sample, there are no blocking factors.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scran</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># quick clustering for pool-based size factors</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="va">qclus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scran/man/quickCluster.html">quickCluster</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span>
@@ -260,8 +259,8 @@
 <span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
 <span class="co">#&gt;  0.1334  0.6093  0.8844  1.0000  1.2852  4.2475</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu">sizeFactors</span><span class="op">(</span><span class="va">spe</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></code></pre></div>
-<p><img src="Vignette03_Analysis_workflow_files/figure-html/normalization-1.png" width="700"></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<p><img src="Vignette03_Analysis_workflow_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># calculate logcounts (log-transformed normalized counts) and store in object</span>
 <span class="va">spe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scuttle/man/logNormCounts.html">logNormCounts</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span>
@@ -272,13 +271,13 @@
 <div id="feature-selection" class="section level2">
 <h2 class="hasAnchor">
 <a href="#feature-selection" class="anchor"></a>Feature selection</h2>
-<p>Identify a set of top highly variable genes (HVGs), which will be used to define cell types. We use methods from <code>scran</code> (<a href="https://f1000research.com/articles/5-2122/v2">Lun et al. 2016</a>), treating spots as equivalent to cells. We also first filter out mitochondrial genes, since these are very highly expressed and not of biological interest here.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<p>Identify a set of top highly variable genes (HVGs), which will be used to define cell types. We again use methods from <a href="https://bioconductor.org/packages/scran">scran</a>, treating spots as equivalent to cells. We also first filter out mitochondrial genes, since these are very highly expressed and not of main biological interest here.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># remove mitochondrial genes</span>
 <span class="va">spe</span> <span class="op">&lt;-</span> <span class="va">spe</span><span class="op">[</span><span class="op">!</span><span class="va">is_mito</span>, <span class="op">]</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span>
 <span class="co">#&gt; [1] 33525  3582</span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># fit mean-variance relationship</span>
 <span class="va">dec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scran/man/modelGeneVar.html">modelGeneVar</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span>
 
@@ -287,8 +286,8 @@
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">mean</span>, <span class="va">fit</span><span class="op">$</span><span class="va">var</span>, 
      xlab <span class="op">=</span> <span class="st">"mean of log-expression"</span>, ylab <span class="op">=</span> <span class="st">"variance of log-expression"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/curve.html">curve</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="fu">trend</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"dodgerblue"</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
-<p><img src="Vignette03_Analysis_workflow_files/figure-html/feature_selection_HVGs-1.png" width="700"></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<p><img src="Vignette03_Analysis_workflow_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># select top HVGs</span>
 <span class="va">top_hvgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scran/man/getTopHVGs.html">getTopHVGs</a></span><span class="op">(</span><span class="va">dec</span>, prop <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>
@@ -298,9 +297,10 @@
 <div id="dimensionality-reduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dimensionality-reduction" class="anchor"></a>Dimensionality reduction</h2>
-<p>Run principal component analysis (PCA) on the set of top HVGs, and retain the top 50 principal components (PCs) for further downstream analyses. This is done to reduce noise and to improve computational efficiency. We also run UMAP on the set of top 50 PCs and retain the top 2 UMAP components for visualization purposes.</p>
-<p>We use the computationally efficient implementation of PCA available in <code>scater</code> (<a href="https://doi.org/10.1093/bioinformatics/btw777">McCarthy et al. 2017</a>), which uses randomization, and therefore requires setting a random seed for reproducibility.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<p>Run principal component analysis (PCA) on the set of top HVGs, and retain the top 50 principal components (PCs) for further downstream analyses. This is done to reduce noise and to improve computational efficiency.</p>
+<p>We also run UMAP on the set of top 50 PCs and retain the top 2 UMAP components for plotting.</p>
+<p>Note that we use the computationally efficient implementation of PCA available in <a href="https://bioconductor.org/packages/scater">scater</a>, which uses randomization, and therefore requires setting a random seed for reproducibility.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># compute PCA</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="va">spe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span><span class="op">(</span><span class="va">spe</span>, subset_row <span class="op">=</span> <span class="va">top_hvgs</span><span class="op">)</span>
@@ -309,7 +309,7 @@
 <span class="co">#&gt; [1] "PCA"</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="fu">reducedDim</span><span class="op">(</span><span class="va">spe</span>, <span class="st">"PCA"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] 3582   50</span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># compute UMAP on top 50 PCs</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="va">spe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runUMAP.html">runUMAP</a></span><span class="op">(</span><span class="va">spe</span>, dimred <span class="op">=</span> <span class="st">"PCA"</span><span class="op">)</span>
@@ -319,14 +319,14 @@
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="fu">reducedDim</span><span class="op">(</span><span class="va">spe</span>, <span class="st">"UMAP"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] 3582    2</span>
 
-<span class="co"># update column names for plotting functions</span>
+<span class="co"># update column names for easier plotting</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu">reducedDim</span><span class="op">(</span><span class="va">spe</span>, <span class="st">"UMAP"</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"UMAP"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="clustering" class="section level2">
 <h2 class="hasAnchor">
 <a href="#clustering" class="anchor"></a>Clustering</h2>
-<p>Next, we perform clustering to define cell types. We apply graph-based clustering using the Walktrap method implemented in <code>scran</code> (<a href="https://f1000research.com/articles/5-2122/v2">Lun et al. 2016</a>), applied to the top 50 PCs calculated on the set of top HVGs.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<p>Next, we perform clustering to define cell types based on molecular expression profiles. We apply graph-based clustering using the Walktrap method implemented in <a href="https://bioconductor.org/packages/scran">scran</a>, applied to the top 50 PCs calculated on the set of top HVGs.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># graph-based clustering</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="va">k</span> <span class="op">&lt;-</span> <span class="fl">10</span>
@@ -340,30 +340,30 @@
 
 <span class="co"># store cluster labels in column 'label' in colData</span>
 <span class="fu">colLabels</span><span class="op">(</span><span class="va">spe</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">clus</span><span class="op">)</span></code></pre></div>
-<p>Visualize the clusters by plotting in (i) spatial (x-y) coordinates on the tissue slide, and (ii) UMAP dimensions.</p>
-<p>From the visualizations, we can see that the clustering reproduces the known biological structure (cortical layers), although not perfectly. The clusters are also separated in UMAP space, but again not perfectly.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># plot clusters in spatial x-y coordinates</span>
+<p>We can visualize the clusters by plotting in (i) x-y coordinates on the tissue slide, and (ii) UMAP dimensions.</p>
+<p>From the plots, we can see that the clustering on molecular expression profiles reproduces the known biological structure (cortical layers) to some degree, although not perfectly. The clusters are also separated in UMAP space, but again not perfectly.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># plot clusters in x-y coordinates</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggspavis/man/plotSpots.html">plotSpots</a></span><span class="op">(</span><span class="va">spe</span>, annotate <span class="op">=</span> <span class="st">"label"</span>, 
           palette <span class="op">=</span> <span class="st">"libd_layer_colors"</span><span class="op">)</span></code></pre></div>
-<p><img src="Vignette03_Analysis_workflow_files/figure-html/clustering_plots_spots-1.png" width="700"></p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<p><img src="Vignette03_Analysis_workflow_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="co"># plot ground truth labels in spatial coordinates</span>
+<span class="co"># plot ground truth labels in x-y coordinates</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggspavis/man/plotSpots.html">plotSpots</a></span><span class="op">(</span><span class="va">spe</span>, annotate <span class="op">=</span> <span class="st">"ground_truth"</span>, 
           palette <span class="op">=</span> <span class="st">"libd_layer_colors"</span><span class="op">)</span></code></pre></div>
-<p><img src="Vignette03_Analysis_workflow_files/figure-html/clustering_plots_spots-2.png" width="700"></p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># plot clusters in UMAP reduced dimensions</span>
+<p><img src="Vignette03_Analysis_workflow_files/figure-html/unnamed-chunk-19-2.png" width="700"></p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># plot clusters in UMAP dimensions</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ggspavis/man/plotDimRed.html">plotDimRed</a></span><span class="op">(</span><span class="va">spe</span>, type <span class="op">=</span> <span class="st">"UMAP"</span>, 
            annotate <span class="op">=</span> <span class="st">"label"</span>, palette <span class="op">=</span> <span class="st">"libd_layer_colors"</span><span class="op">)</span></code></pre></div>
-<p><img src="Vignette03_Analysis_workflow_files/figure-html/clustering_plots_reduced-1.png" width="480"></p>
+<p><img src="Vignette03_Analysis_workflow_files/figure-html/unnamed-chunk-20-1.png" width="480"></p>
 </div>
 <div id="marker-genes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#marker-genes" class="anchor"></a>Marker genes</h2>
-<p>Identify marker genes by testing for differential gene expression between clusters. We use the <code>findMarkers</code> implementation in <code>scran</code> (<a href="https://f1000research.com/articles/5-2122/v2">Lun et al. 2016</a>), using a binomial test, which tests for genes that differ in the proportion expressed vs. not expressed between clusters. This is a more stringent test than the default t-tests, and tends to select genes that are easier to interpret and validate experimentally.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<p>Finally, we can identify marker genes by testing for differential gene expression between clusters. We use the <code>findMarkers</code> implementation in <a href="https://bioconductor.org/packages/scran">scran</a>, using a binomial test, which tests for genes that differ in the proportion expressed vs. not expressed between clusters. This is a more stringent test than the default t-tests, and tends to select genes that are easier to interpret and validate experimentally.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># set gene names as row names for easier plotting</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">spe</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">rowData</span><span class="op">(</span><span class="va">spe</span><span class="op">)</span><span class="op">$</span><span class="va">gene_name</span>
 
@@ -374,9 +374,9 @@
 <span class="va">markers</span>
 <span class="co">#&gt; List of length 6</span>
 <span class="co">#&gt; names(6): 1 2 3 4 5 6</span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">pheatmap</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">pheatmap</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># plot log-fold changes for one cluster over all other clusters</span>
 <span class="co"># selecting cluster 1</span>
 <span class="va">interesting</span> <span class="op">&lt;-</span> <span class="va">markers</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
@@ -384,13 +384,13 @@
 <span class="va">logFCs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scran/man/getMarkerEffects.html">getMarkerEffects</a></span><span class="op">(</span><span class="va">best_set</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html">pheatmap</a></span><span class="op">(</span><span class="va">logFCs</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span>, length.out <span class="op">=</span> <span class="fl">101</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="Vignette03_Analysis_workflow_files/figure-html/marker_genes_heatmap-1.png" width="480"></p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<p><img src="Vignette03_Analysis_workflow_files/figure-html/unnamed-chunk-23-1.png" width="480"></p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># plot log-transformed normalized expression of top genes for one cluster</span>
 <span class="va">top_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">interesting</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/pkg/scater/man/plotExpression.html">plotExpression</a></span><span class="op">(</span><span class="va">spe</span>, x <span class="op">=</span> <span class="st">"label"</span>, features <span class="op">=</span> <span class="va">top_genes</span><span class="op">)</span></code></pre></div>
-<p><img src="Vignette03_Analysis_workflow_files/figure-html/marker_genes_expression-1.png" width="672"></p>
+<p><img src="Vignette03_Analysis_workflow_files/figure-html/unnamed-chunk-24-1.png" width="672"></p>
 </div>
   </div>
 
