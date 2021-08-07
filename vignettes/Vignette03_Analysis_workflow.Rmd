@@ -21,30 +21,30 @@ Last updated: `r Sys.Date()`
 
 ## Visium human DLPFC workflow
 
-In this vignette, we demonstrate the steps in a computational analysis workflow for spatially resolved transcriptomics (ST), using an example dataset from the 10x Genomics Visium platform.
+In this vignette, we demonstrate the steps in a computational analysis workflow for spatially resolved transcriptomics (ST) data, using an example dataset from the 10x Genomics Visium platform.
 
-As described in the previous vignette, the datasets consists of a single sample (sample 151673) from the human brain dorsolateral prefrontal cortex (DLPFC) region, previously described in our publication [Maynard and Collado-Torres et al. 2021](https://www.nature.com/articles/s41593-020-00787-0). The original dataset can be obtained through the [spatialLIBD](http://bioconductor.org/packages/spatialLIBD) Bioconductor package.
+As described in the previous vignette, the dataset consists of a single sample (sample 151673) from the human brain dorsolateral prefrontal cortex (DLPFC) region, previously described in our publication [Maynard and Collado-Torres et al. (2021)](https://www.nature.com/articles/s41593-020-00787-0). The full original dataset can be obtained through the [spatialLIBD](http://bioconductor.org/packages/spatialLIBD) Bioconductor package.
 
 
 ## Load data
 
-We begin by loading the dataset.
+We begin by loading the dataset. We have stored a copy of this dataset in [SpatialExperiment](https://bioconductor.org/packages/SpatialExperiment) format in the [STexampleData](https://bioconductor.org/packages/STexampleData) package, to make it easier to load for use in examples and tutorials.
 
-We have stored a copy of this dataset in `SpatialExperiment` format in the [STexampleData](https://bioconductor.org/packages/STexampleData) package, to make it easier to load.
+If you are using the latest `devel` version of Bioconductor 3.14, the dataset can be loaded as shown in the code below.
 
-If you are using the latest `devel` version of Bioconductor 3.14, the dataset can be loaded as follows.
+Alternatively, if you are working in a `release` version of Bioconductor 3.13, the helper function shown in the code comments can be used instead.
 
-Alternatively, if you are working in a `release` version of Bioconductor 3.13, the helper function in comments can be used instead.
-
-```{r load_data, message=FALSE}
+```{r, message=FALSE}
 library(SpatialExperiment)
 library(STexampleData)
 
 # load dataset from ExperimentHub
 spe <- Visium_humanDLPFC()
 spe
+```
 
-# alternatively: load dataset using helper function
+```{r, message=FALSE}
+# alternatively: load dataset using helper function if working in Bioc 3.13
 # spe <- load_data("Visium_humanDLPFC")
 # spe
 ```
@@ -60,7 +60,7 @@ We use visualization functions from the [ggspavis](https://github.com/lmweber/gg
 library(ggspavis)
 ```
 
-```{r plot_data, fig.height=3.5}
+```{r, fig.height=3.5}
 # plot spatial coordinates (spots)
 plotSpots(spe)
 ```
@@ -70,19 +70,19 @@ plotSpots(spe)
 
 First, we subset the object to keep only spots over tissue.
 
-```{r subset_in_tissue}
+```{r}
 # subset to keep only spots over tissue
 spe <- spe[, spatialData(spe)$in_tissue == 1]
 dim(spe)
 ```
 
-Next, calculate spot-level QC metrics using the `scater` package ([McCarthy et al. 2017](https://doi.org/10.1093/bioinformatics/btw777)), and store the QC metrics in `colData`.
+Next, calculate spot-level quality control (QC) metrics using the [scater](https://bioconductor.org/packages/scater) package ([McCarthy et al. 2017](https://doi.org/10.1093/bioinformatics/btw777)) and store the QC metrics in `colData` in the object.
 
 ```{r, message=FALSE}
 library(scater)
 ```
 
-```{r QC_calculate}
+```{r}
 # identify mitochondrial genes
 is_mito <- grepl("(^MT-)|(^mt-)", rowData(spe)$gene_name)
 table(is_mito)
@@ -93,9 +93,9 @@ spe <- addPerCellQC(spe, subsets = list(mito = is_mito))
 head(colData(spe), 3)
 ```
 
-Select filtering thresholds for the QC metrics by examining distributions using histograms.
+Select filtering thresholds for the QC metrics by examining distributions using histograms. For more details, see the [Quality control](https://lmweber.org/OSTA-book/quality-control.html) chapter in OSTA.
 
-```{r QC_thresholds, fig.width=7, fig.height=3}
+```{r, fig.width=7, fig.height=3}
 # histograms of QC metrics
 par(mfrow = c(1, 4))
 hist(colData(spe)$sum, xlab = "sum", main = "UMIs per spot")
@@ -121,9 +121,9 @@ table(discard)
 colData(spe)$discard <- discard
 ```
 
-Plot the set of discarded spots in the spatial x-y coordinates, to confirm that the spatial distribution of the discarded spots does not correspond to any biologically meaningful regions, which would indicate that we are removing biologically informative spots.
+Plot the set of discarded spots in x-y coordinates, to confirm that the spatial distribution of the discarded spots does not correspond to any obvious biologically meaningful regions, which would indicate that we are removing biologically informative spots.
 
-```{r QC_check, fig.height=3.5}
+```{r, fig.height=3.5}
 # check spatial pattern of discarded spots
 plotQC(spe, type = "spots", discard = "discard")
 ```
@@ -132,7 +132,7 @@ There is some concentration of discarded spots at the edge of the tissue region,
 
 We filter out the low-quality spots from the object.
 
-```{r QC_filter}
+```{r}
 # filter low-quality spots
 spe <- spe[, !colData(spe)$discard]
 dim(spe)
@@ -141,13 +141,13 @@ dim(spe)
 
 ## Normalization
 
-Calculate log-transformed normalized counts, using pool-based size factors and deconvolution to the spot level. We use normalization methods from `scater` ([McCarthy et al. 2017](https://doi.org/10.1093/bioinformatics/btw777)) and `scran` ([Lun et al. 2016](https://f1000research.com/articles/5-2122/v2)), by assuming that these methods can be applied by treating spots as equivalent to cells. Since we have a single sample, there are no blocking factors.
+Calculate log-transformed normalized counts, using pool-based size factors and deconvolution to the spot level. We use normalization methods from [scater](https://bioconductor.org/packages/scater) ([McCarthy et al. 2017](https://doi.org/10.1093/bioinformatics/btw777)) and [scran](https://bioconductor.org/packages/scran) ([Lun et al. 2016](https://f1000research.com/articles/5-2122/v2)), by assuming that these methods can be applied by treating spots as equivalent to cells. Since we have a single sample, there are no blocking factors.
 
 ```{r, message=FALSE}
 library(scran)
 ```
 
-```{r normalization, fig.height=3.5}
+```{r, fig.height=3.5}
 # quick clustering for pool-based size factors
 set.seed(123)
 qclus <- quickCluster(spe)
@@ -168,15 +168,15 @@ assayNames(spe)
 
 ## Feature selection
 
-Identify a set of top highly variable genes (HVGs), which will be used to define cell types. We use methods from `scran` ([Lun et al. 2016](https://f1000research.com/articles/5-2122/v2)), treating spots as equivalent to cells. We also first filter out mitochondrial genes, since these are very highly expressed and not of biological interest here.
+Identify a set of top highly variable genes (HVGs), which will be used to define cell types. We again use methods from [scran](https://bioconductor.org/packages/scran), treating spots as equivalent to cells. We also first filter out mitochondrial genes, since these are very highly expressed and not of main biological interest here.
 
-```{r feature_selection_mito}
+```{r}
 # remove mitochondrial genes
 spe <- spe[!is_mito, ]
 dim(spe)
 ```
 
-```{r feature_selection_HVGs, message=FALSE, fig.height=5}
+```{r, message=FALSE, fig.height=5}
 # fit mean-variance relationship
 dec <- modelGeneVar(spe)
 
@@ -194,11 +194,13 @@ length(top_hvgs)
 
 ## Dimensionality reduction
 
-Run principal component analysis (PCA) on the set of top HVGs, and retain the top 50 principal components (PCs) for further downstream analyses. This is done to reduce noise and to improve computational efficiency. We also run UMAP on the set of top 50 PCs and retain the top 2 UMAP components for visualization purposes.
+Run principal component analysis (PCA) on the set of top HVGs, and retain the top 50 principal components (PCs) for further downstream analyses. This is done to reduce noise and to improve computational efficiency.
 
-We use the computationally efficient implementation of PCA available in `scater` ([McCarthy et al. 2017](https://doi.org/10.1093/bioinformatics/btw777)), which uses randomization, and therefore requires setting a random seed for reproducibility.
+We also run UMAP on the set of top 50 PCs and retain the top 2 UMAP components for plotting.
 
-```{r dimensionality_reduction_PCA}
+Note that we use the computationally efficient implementation of PCA available in [scater](https://bioconductor.org/packages/scater), which uses randomization, and therefore requires setting a random seed for reproducibility.
+
+```{r}
 # compute PCA
 set.seed(123)
 spe <- runPCA(spe, subset_row = top_hvgs)
@@ -207,7 +209,7 @@ reducedDimNames(spe)
 dim(reducedDim(spe, "PCA"))
 ```
 
-```{r dimensionality_reduction_UMAP}
+```{r}
 # compute UMAP on top 50 PCs
 set.seed(123)
 spe <- runUMAP(spe, dimred = "PCA")
@@ -215,16 +217,16 @@ spe <- runUMAP(spe, dimred = "PCA")
 reducedDimNames(spe)
 dim(reducedDim(spe, "UMAP"))
 
-# update column names for plotting functions
+# update column names for easier plotting
 colnames(reducedDim(spe, "UMAP")) <- paste0("UMAP", 1:2)
 ```
 
 
 ## Clustering
 
-Next, we perform clustering to define cell types. We apply graph-based clustering using the Walktrap method implemented in `scran` ([Lun et al. 2016](https://f1000research.com/articles/5-2122/v2)), applied to the top 50 PCs calculated on the set of top HVGs.
+Next, we perform clustering to define cell types based on molecular expression profiles. We apply graph-based clustering using the Walktrap method implemented in [scran](https://bioconductor.org/packages/scran), applied to the top 50 PCs calculated on the set of top HVGs.
 
-```{r clustering_calculate}
+```{r}
 # graph-based clustering
 set.seed(123)
 k <- 10
@@ -237,22 +239,22 @@ table(clus)
 colLabels(spe) <- factor(clus)
 ```
 
-Visualize the clusters by plotting in (i) spatial (x-y) coordinates on the tissue slide, and (ii) UMAP dimensions.
+We can visualize the clusters by plotting in (i) x-y coordinates on the tissue slide, and (ii) UMAP dimensions.
 
-From the visualizations, we can see that the clustering reproduces the known biological structure (cortical layers), although not perfectly. The clusters are also separated in UMAP space, but again not perfectly.
+From the plots, we can see that the clustering on molecular expression profiles reproduces the known biological structure (cortical layers) to some degree, although not perfectly. The clusters are also separated in UMAP space, but again not perfectly.
 
-```{r clustering_plots_spots, fig.height=3.5}
-# plot clusters in spatial x-y coordinates
+```{r, fig.height=3.5}
+# plot clusters in x-y coordinates
 plotSpots(spe, annotate = "label", 
           palette = "libd_layer_colors")
 
-# plot ground truth labels in spatial coordinates
+# plot ground truth labels in x-y coordinates
 plotSpots(spe, annotate = "ground_truth", 
           palette = "libd_layer_colors")
 ```
 
-```{r clustering_plots_reduced, fig.width=5, fig.height=4.25}
-# plot clusters in UMAP reduced dimensions
+```{r, fig.width=5, fig.height=4.25}
+# plot clusters in UMAP dimensions
 plotDimRed(spe, type = "UMAP", 
            annotate = "label", palette = "libd_layer_colors")
 ```
@@ -260,9 +262,9 @@ plotDimRed(spe, type = "UMAP",
 
 ## Marker genes
 
-Identify marker genes by testing for differential gene expression between clusters. We use the `findMarkers` implementation in `scran` ([Lun et al. 2016](https://f1000research.com/articles/5-2122/v2)), using a binomial test, which tests for genes that differ in the proportion expressed vs. not expressed between clusters. This is a more stringent test than the default t-tests, and tends to select genes that are easier to interpret and validate experimentally.
+Finally, we can identify marker genes by testing for differential gene expression between clusters. We use the `findMarkers` implementation in [scran](https://bioconductor.org/packages/scran), using a binomial test, which tests for genes that differ in the proportion expressed vs. not expressed between clusters. This is a more stringent test than the default t-tests, and tends to select genes that are easier to interpret and validate experimentally.
 
-```{r marker_genes}
+```{r}
 # set gene names as row names for easier plotting
 rownames(spe) <- rowData(spe)$gene_name
 
@@ -277,7 +279,7 @@ markers
 library(pheatmap)
 ```
 
-```{r marker_genes_heatmap, fig.width=5, fig.height=6}
+```{r, fig.width=5, fig.height=6}
 # plot log-fold changes for one cluster over all other clusters
 # selecting cluster 1
 interesting <- markers[[1]]
@@ -287,7 +289,7 @@ logFCs <- getMarkerEffects(best_set)
 pheatmap(logFCs, breaks = seq(-5, 5, length.out = 101))
 ```
 
-```{r marker_genes_expression, fig.width=7, fig.height=7}
+```{r, fig.width=7, fig.height=7}
 # plot log-transformed normalized expression of top genes for one cluster
 top_genes <- head(rownames(interesting))
 
