@@ -5,7 +5,7 @@ articles:
   Vignette01_Introduction: Vignette01_Introduction.html
   Vignette02_Dataset_and_preprocessing: Vignette02_Dataset_and_preprocessing.html
   Vignette03_Analysis_workflow: Vignette03_Analysis_workflow.html
-last_built: 2021-08-07T17:30Z
+last_built: 2021-08-07T17:44Z
 urls:
   reference: https://lmweber.github.io/OSTAWorkshopBioc2021/reference
   article: https://lmweber.github.io/OSTAWorkshopBioc2021/articles
