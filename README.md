@@ -5,8 +5,10 @@ This repository contains materials for our [OSTA](https://lmweber.org/OSTA-book/
 
 ## Links
 
-- Link to rendered workshop page: https://lmweber.org/OSTAWorkshopBioc2021/
-- Link to source repository: https://github.com/lmweber/OSTAWorkshopBioc2021
+- Workshop website: https://lmweber.org/OSTAWorkshopBioc2021/
+- Workshop source repository: https://github.com/lmweber/OSTAWorkshopBioc2021
+- OSTA website: https://lmweber.org/OSTA-book/
+- OSTA source repository: https://github.com/lmweber/OSTA-book
 
 
 ## Overview

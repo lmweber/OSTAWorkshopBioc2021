@@ -32,7 +32,7 @@ We begin by loading the dataset. We have stored a copy of this dataset in [Spati
 
 If you are using the latest `devel` version of Bioconductor 3.14, the dataset can be loaded as shown in the code below.
 
-Alternatively, if you are working in a `release` version of Bioconductor 3.13, the helper function shown in the code comments can be used instead.
+Alternatively, if you are working in a `release` version of Bioconductor 3.13, the helper function shown in the code comments below can be used instead.
 
 ```{r, message=FALSE}
 library(SpatialExperiment)
@@ -44,7 +44,7 @@ spe
 ```
 
 ```{r, message=FALSE}
-# alternatively: load dataset using helper function if working in Bioc 3.13
+# alternatively: load dataset using helper function in Bioc 3.13
 # spe <- load_data("Visium_humanDLPFC")
 # spe
 ```
@@ -54,7 +54,7 @@ spe
 
 As an initial check, plot the spatial coordinates (spots) in x-y dimensions on the tissue slide, to check that the object has loaded correctly and that the orientation is as expected.
 
-We use visualization functions from the [ggspavis](https://github.com/lmweber/ggpavis) package to generate plots.
+We use visualization functions from the [ggspavis](https://github.com/lmweber/ggspavis) package to generate plots.
 
 ```{r, message=FALSE}
 library(ggspavis)
@@ -141,7 +141,7 @@ dim(spe)
 
 ## Normalization
 
-Calculate log-transformed normalized counts, using pool-based size factors and deconvolution to the spot level. We use normalization methods from [scater](https://bioconductor.org/packages/scater) ([McCarthy et al. 2017](https://doi.org/10.1093/bioinformatics/btw777)) and [scran](https://bioconductor.org/packages/scran) ([Lun et al. 2016](https://f1000research.com/articles/5-2122/v2)), by assuming that these methods can be applied by treating spots as equivalent to cells. Since we have a single sample, there are no blocking factors.
+Calculate log-transformed normalized counts, using pool-based size factors and deconvolution to the spot level. We use normalization methods from the [scater](https://bioconductor.org/packages/scater) ([McCarthy et al. 2017](https://doi.org/10.1093/bioinformatics/btw777)) and [scran](https://bioconductor.org/packages/scran) ([Lun et al. 2016](https://f1000research.com/articles/5-2122/v2)) packages, by assuming that these methods can be applied by treating spots as equivalent to cells. Since we have a single sample, there are no blocking factors.
 
 ```{r, message=FALSE}
 library(scran)
@@ -279,7 +279,7 @@ markers
 library(pheatmap)
 ```
 
-```{r, fig.width=5, fig.height=6}
+```{r, fig.width=4, fig.height=5}
 # plot log-fold changes for one cluster over all other clusters
 # selecting cluster 1
 interesting <- markers[[1]]
@@ -289,7 +289,7 @@ logFCs <- getMarkerEffects(best_set)
 pheatmap(logFCs, breaks = seq(-5, 5, length.out = 101))
 ```
 
-```{r, fig.width=7, fig.height=7}
+```{r, fig.width=5.5, fig.height=6}
 # plot log-transformed normalized expression of top genes for one cluster
 top_genes <- head(rownames(interesting))
 

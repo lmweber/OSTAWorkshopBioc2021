@@ -51,7 +51,9 @@ knitr::include_graphics("../inst/images/Visium_schematic.png")
 
 ## Data structure
 
-For each Visium sample, we obtain a matrix of read counts for up to 5,000 spots, as illustrated below. Note that in the Bioconductor format in [SpatialExperiment](https://bioconductor.org/packages/SpatialExperiment), this is stored in the transposed format with genes in rows and spots in columns.
+For each Visium sample, we obtain a matrix of read counts for up to 5,000 spots, as illustrated below.
+
+Note that in the Bioconductor format in [SpatialExperiment](https://bioconductor.org/packages/SpatialExperiment), this is stored in the transposed format with genes in rows and spots in columns.
 
 In addition, we have the image of the tissue slide (described in the following sections), which allows us to align the molecular and spatial information.
 
@@ -70,7 +72,7 @@ Here, we note that the [OSCA](https://bioconductor.org/books/release/OSCA/) book
 
 However, this approximation (spots as equivalent to cells) is not perfect -- spots may contain zero, one, or many cells -- and in addition it ignores any additional information contained in the spatial relationships or distances between spots.
 
-```{r, echo=FALSE, out.width="70%", fig.align="center", fig.cap="Screenshot of [OSCA]](https://bioconductor.org/books/release/OSCA/) online book."}
+```{r, echo=FALSE, out.width="70%", fig.align="center", fig.cap="Screenshot of [OSCA](https://bioconductor.org/books/release/OSCA/) online book."}
 knitr::include_graphics("../inst/images/OSCA.png")
 ```
 

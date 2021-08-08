@@ -43,7 +43,7 @@ These steps are described in detail in the [Preprocessing steps](https://lmweber
 
 The first step is to process the raw images, which includes splitting multiple capture areas into individual samples, segmenting cell nuclei, and identifying the number of cells per spot.
 
-For more details, see the chapter [Image segmentation (Visium)](https://lmweber.org/OSTA-book/image-segmentation-visium.html) in OSTA, as well as the paper [Tippani et al. (2021)](https://www.biorxiv.org/content/10.1101/2021.08.04.452489v1) describing the [VistoSeg](https://github.com/LieberInstitute/VistoSeg) tool.
+For more details, see the chapter [Image segmentation (Visium)](https://lmweber.org/OSTA-book/image-segmentation-visium.html) in OSTA, as well as the paper [Tippani et al. (2021)](https://www.biorxiv.org/content/10.1101/2021.08.04.452489v1) describing the [VistoSeg](http://research.libd.org/VistoSeg/) tool.
 
 Note that part of this step also requires the Space Ranger outputs described next.
 
@@ -61,7 +61,7 @@ After running Loupe Browser and Space Ranger, we are ready to load the data into
 
 For this, we use the [SpatialExperiment](https://bioconductor.org/packages/SpatialExperiment) data structure. For more details, see the [SpatialExperiment](https://lmweber.org/OSTA-book/spatialexperiment.html) chapter in OSTA, or our additional [SpatialExperiment workshop](https://drighelli.github.io/SpatialExperiment_Bioc2021/index.html).
 
-The schematic below illustrates the `SpatialExperiment` structure, which extends [SingleCellExperiment](https://bioconductor.org/packages/SingleCellExperiment) to include additional spatial information. The structure is flexible, and has been designed to work with data from 10x Genomics Visium as well as other spot-based and molecule-based ST platforms.
+The schematic below illustrates the `SpatialExperiment` structure, which extends [SingleCellExperiment](https://bioconductor.org/packages/SingleCellExperiment) to include additional spatial and image information. The structure is flexible, and has been designed to work with data from 10x Genomics Visium as well as other spot-based and molecule-based ST platforms.
 
 ```{r, echo=FALSE, out.width="100%", fig.align="center", fig.cap="Schematic illustrating [SpatialExperiment](https://bioconductor.org/packages/SpatialExperiment) class structure."}
 knitr::include_graphics("../inst/images/spe.png")
