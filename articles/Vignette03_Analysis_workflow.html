@@ -96,7 +96,7 @@
 
     
     
-<p>Last updated: 2021-08-07</p>
+<p>Last updated: 2021-08-08</p>
 <div id="visium-human-dlpfc-workflow" class="section level2">
 <h2 class="hasAnchor">
 <a href="#visium-human-dlpfc-workflow" class="anchor"></a>Visium human DLPFC workflow</h2>
@@ -108,7 +108,7 @@
 <a href="#load-data" class="anchor"></a>Load data</h2>
 <p>We begin by loading the dataset. We have stored a copy of this dataset in <a href="https://bioconductor.org/packages/SpatialExperiment">SpatialExperiment</a> format in the <a href="https://bioconductor.org/packages/STexampleData">STexampleData</a> package, to make it easier to load for use in examples and tutorials.</p>
 <p>If you are using the latest <code>devel</code> version of Bioconductor 3.14, the dataset can be loaded as shown in the code below.</p>
-<p>Alternatively, if you are working in a <code>release</code> version of Bioconductor 3.13, the helper function shown in the code comments can be used instead.</p>
+<p>Alternatively, if you are working in a <code>release</code> version of Bioconductor 3.13, the helper function shown in the code comments below can be used instead.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">SpatialExperiment</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lmweber/STexampleData">STexampleData</a></span><span class="op">)</span>
@@ -134,7 +134,7 @@
 <span class="co">#&gt; spatialCoords names(2) : x y</span>
 <span class="co">#&gt; imgData names(4): sample_id image_id data scaleFactor</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># alternatively: load dataset using helper function if working in Bioc 3.13</span>
+<code class="sourceCode R"><span class="co"># alternatively: load dataset using helper function in Bioc 3.13</span>
 <span class="co"># spe &lt;- load_data("Visium_humanDLPFC")</span>
 <span class="co"># spe</span></code></pre></div>
 </div>
@@ -142,7 +142,7 @@
 <h2 class="hasAnchor">
 <a href="#plot-data" class="anchor"></a>Plot data</h2>
 <p>As an initial check, plot the spatial coordinates (spots) in x-y dimensions on the tissue slide, to check that the object has loaded correctly and that the orientation is as expected.</p>
-<p>We use visualization functions from the <a href="https://github.com/lmweber/ggpavis">ggspavis</a> package to generate plots.</p>
+<p>We use visualization functions from the <a href="https://github.com/lmweber/ggspavis">ggspavis</a> package to generate plots.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lmweber/ggspavis">ggspavis</a></span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -240,7 +240,7 @@
 <div id="normalization" class="section level2">
 <h2 class="hasAnchor">
 <a href="#normalization" class="anchor"></a>Normalization</h2>
-<p>Calculate log-transformed normalized counts, using pool-based size factors and deconvolution to the spot level. We use normalization methods from <a href="https://bioconductor.org/packages/scater">scater</a> (<a href="https://doi.org/10.1093/bioinformatics/btw777">McCarthy et al. 2017</a>) and <a href="https://bioconductor.org/packages/scran">scran</a> (<a href="https://f1000research.com/articles/5-2122/v2">Lun et al. 2016</a>), by assuming that these methods can be applied by treating spots as equivalent to cells. Since we have a single sample, there are no blocking factors.</p>
+<p>Calculate log-transformed normalized counts, using pool-based size factors and deconvolution to the spot level. We use normalization methods from the <a href="https://bioconductor.org/packages/scater">scater</a> (<a href="https://doi.org/10.1093/bioinformatics/btw777">McCarthy et al. 2017</a>) and <a href="https://bioconductor.org/packages/scran">scran</a> (<a href="https://f1000research.com/articles/5-2122/v2">Lun et al. 2016</a>) packages, by assuming that these methods can be applied by treating spots as equivalent to cells. Since we have a single sample, there are no blocking factors.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scran</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -384,13 +384,13 @@
 <span class="va">logFCs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scran/man/getMarkerEffects.html">getMarkerEffects</a></span><span class="op">(</span><span class="va">best_set</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html">pheatmap</a></span><span class="op">(</span><span class="va">logFCs</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span>, length.out <span class="op">=</span> <span class="fl">101</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="Vignette03_Analysis_workflow_files/figure-html/unnamed-chunk-23-1.png" width="480"></p>
+<p><img src="Vignette03_Analysis_workflow_files/figure-html/unnamed-chunk-23-1.png" width="384"></p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># plot log-transformed normalized expression of top genes for one cluster</span>
 <span class="va">top_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">interesting</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/pkg/scater/man/plotExpression.html">plotExpression</a></span><span class="op">(</span><span class="va">spe</span>, x <span class="op">=</span> <span class="st">"label"</span>, features <span class="op">=</span> <span class="va">top_genes</span><span class="op">)</span></code></pre></div>
-<p><img src="Vignette03_Analysis_workflow_files/figure-html/unnamed-chunk-24-1.png" width="672"></p>
+<p><img src="Vignette03_Analysis_workflow_files/figure-html/unnamed-chunk-24-1.png" width="528"></p>
 </div>
   </div>
 
