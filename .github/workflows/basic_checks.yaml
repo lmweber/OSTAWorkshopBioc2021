@@ -3,7 +3,7 @@ on: [push, pull_request]
 env:
   cache-version: v1
   repo-name: lmweber/ostaworkshopbioc2021  # dockerhub repo
-  GITHUB_PAT: ${{ secrets.MY_TOKEN }}  # use personal access token (PAT) stored in Secrets in GitHub settings
+  # GITHUB_PAT: ${{ secrets.MY_TOKEN }}  # use personal access token (PAT) stored in Secrets in GitHub settings
 
 jobs:
   job1:
