@@ -1,4 +1,4 @@
-# OSTAWorkshopBioc2021
+# OSTA Workshop Bioc2021
 
 This repository contains materials for our [OSTA](https://lmweber.org/OSTA-book/) workshop at the [Bioc2021 conference](https://bioc2021.bioconductor.org/).
 
